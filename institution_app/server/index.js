@@ -1,17 +1,29 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-
+const express = require('express');
+require('dotenv').config();
+require('express-async-errors');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const connectDB = require('./db/connect');
 const app = express();
-const url = "mongodb://127.0.0.1:27017/test_school";
-const port = process.env.PORT || 3001;
-mongoose
-	.connect(url, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-	.then(() =>
-		app.listen(port, () => console.log("Server is running on ", port))
-	)
-	.catch((error) => console.log(error.message));
+const PORT = process.env.PORT || 3001;
+const notFoundMiddlware = require('./middleware/404Middleware');
+app.use(cors());
+app.use(express.json());
+app.use(helmet());
+app.use(morgan('dev'));
+
+app.use(notFoundMiddlware);
+
+const startServer = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(PORT, () => {
+      console.log(`Server started on port ${PORT}`);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+startServer();
