@@ -1,7 +1,7 @@
-const { Login, Signup } = require('../controllers/superAdmin');
+const { Login, Signup } = require("../controllers/superAdmin");
 
-const router = require('express').Router();
+const router = require("express").Router();
 
-router.post('/login', Login);
-router.post('/signup', Signup);
+router.post("/login", Login);
+router.post("/signup", Signup);
 module.exports = router;
