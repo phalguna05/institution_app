@@ -1,23 +1,21 @@
-const SuperAdmin = require('../models/superAdmin');
 const { StatusCodes } = require('http-status-codes');
-const { UnauthorizedError, CustomAPIError } = require('../errors');
+const SuperAdmin = require('../../models/superAdmin');
+const { UnauthorizedError, CustomAPIError } = require('../../errors');
 
 const Login = async (req, res) => {
   const { email, password } = req.body;
   const superAdmin = await SuperAdmin.findOne({ email });
   if (!superAdmin) {
     throw new UnauthorizedError('User Not Found');
+  } else if (await superAdmin.validatePassword(password)) {
+    const token = superAdmin.generateAuthToken();
+    res.status(StatusCodes.OK).send({ access_token: token });
   } else {
-    if (await superAdmin.validatePassword(password)) {
-      const token = superAdmin.generateAuthToken();
-      res.status(StatusCodes.OK).send({ access_token: token });
-    } else {
-      throw new UnauthorizedError('Invalid Credentials');
-    }
+    throw new UnauthorizedError('Invalid Credentials');
   }
 };
 
-//To be removed
+// To be removed
 const Signup = async (req, res) => {
   const { email } = req.body;
   const superAdmin = await SuperAdmin.findOne({ email });
