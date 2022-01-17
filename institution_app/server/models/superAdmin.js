@@ -1,7 +1,23 @@
+/* eslint-disable func-names */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const super_admin_schema = new mongoose.Schema({
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     SuperAdmin:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *           example: "john@gmail.com"
+ *         password:
+ *           type: string
+ *           example: "12345678"
+ *
+ */
+const superAdminSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'Email is Required'],
@@ -11,13 +27,13 @@ const super_admin_schema = new mongoose.Schema({
     required: [true, 'Password is Required'],
   },
 });
-super_admin_schema.pre('save', async function (next) {
+superAdminSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(this.password, salt);
   this.password = hash;
   next();
 });
-super_admin_schema.methods.generateAuthToken = function () {
+superAdminSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     {
       userId: this._id,
@@ -30,8 +46,8 @@ super_admin_schema.methods.generateAuthToken = function () {
   );
   return token;
 };
-super_admin_schema.methods.validatePassword = async function (password) {
+superAdminSchema.methods.validatePassword = async function (password) {
   const isMatch = await bcrypt.compare(password, this.password);
   return isMatch;
 };
-module.exports = mongoose.model('SuperAdmin', super_admin_schema);
+module.exports = mongoose.model('SuperAdmin', superAdminSchema);

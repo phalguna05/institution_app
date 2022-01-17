@@ -1,7 +1,43 @@
+/* eslint-disable func-names */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const admin_schema = new mongoose.Schema({
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Admin:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *           example: "john@gmail.com"
+ *         password:
+ *           type: string
+ *           example: "12345678"
+ 
+ *         schoolName:
+ *           type: string
+ *           example: "ABC School"
+
+ *         name:
+ *           type: string
+ *           example: "John"
+
+ *         phoneNumber:
+ *           type: string
+ *           example: "1234567890"
+
+ *         address:
+ *           type: string
+ *           example: "ABC Road, XYZ City"
+
+ *         dateOfJoining:
+ *           type: string
+ *           example: "2020-01-01"
+
+ */
+const adminSchema = new mongoose.Schema({
   email: {
     type: String,
     maxlength: [30, 'Email cannot be more than 30 characters.'],
@@ -34,13 +70,13 @@ const admin_schema = new mongoose.Schema({
     required: [true, 'Date of Joining is required'],
   },
 });
-admin_schema.pre('save', async function (next) {
+adminSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(this.password, salt);
   this.password = hash;
   next();
 });
-admin_schema.methods.generateAuthToken = function () {
+adminSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { userId: this._id, name: this.name, email: this.email, role: 'ADMIN' },
     process.env.JWT_SECRET,
@@ -48,9 +84,9 @@ admin_schema.methods.generateAuthToken = function () {
   );
   return token;
 };
-admin_schema.methods.validatePassword = async function (password) {
+adminSchema.methods.validatePassword = async function (password) {
   const isMatch = await bcrypt.compare(password, this.password);
   return isMatch;
 };
 
-module.exports = mongoose.model('Admin', admin_schema);
+module.exports = mongoose.model('Admin', adminSchema);
