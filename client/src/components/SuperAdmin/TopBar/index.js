@@ -20,12 +20,16 @@ import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../Login/Reducers/actions';
 import AdminForm from '../AdminForm';
+import { setDashboardDisplay } from '../Reducers/actions';
 import { useStyles } from './topBar.styles';
 
-export default function TopBar({ checkIfOpen }) {
+const TopBar = ({ checkIfOpen }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const handleDrawerOpen = () => {
@@ -67,7 +71,11 @@ export default function TopBar({ checkIfOpen }) {
           <Typography variant="h6" noWrap style={{ flexGrow: '1' }}>
             Dashboard
           </Typography>
-          <IconButton color="inherit" aria-label="log out">
+          <IconButton
+            color="inherit"
+            aria-label="log out"
+            onClick={() => dispatch(logout())}
+          >
             <ExitToAppIcon />
           </IconButton>
         </Toolbar>
@@ -97,7 +105,11 @@ export default function TopBar({ checkIfOpen }) {
         <Divider />
         <List>
           {['Add Admin'].map((text, index) => (
-            <ListItem button key={text} onClick={() => toggleDialog()}>
+            <ListItem
+              button
+              key={text}
+              onClick={() => dispatch(setDashboardDisplay('adminsDisplay'))}
+            >
               <ListItemIcon>{iconsList[index]}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -117,4 +129,5 @@ export default function TopBar({ checkIfOpen }) {
       </Dialog>
     </div>
   );
-}
+};
+export default TopBar;

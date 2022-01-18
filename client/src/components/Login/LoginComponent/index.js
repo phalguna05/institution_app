@@ -2,7 +2,6 @@ import {
   Button,
   IconButton,
   InputAdornment,
-  Paper,
   TextField,
   Typography,
 } from '@material-ui/core';
@@ -13,6 +12,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import loginImage from '../../../Images/login.svg';
 import { AxiosInstance } from '../../../services/index';
 import { loginSuccess } from '../Reducers/actions';
 import { divStyles } from './login.Styles';
@@ -52,75 +52,81 @@ const LoginComponent = ({ nextPath, component }) => {
   });
   return (
     <div className={containerStyles.loginContainer}>
-      <div className={containerStyles.mainContainer}>
-        <Paper>
-          <form onSubmit={formik.handleSubmit}>
-            <div className={containerStyles.formContainer}>
-              <Typography gutterBottom variant="h5" component="h2">
-                Login
-              </Typography>
+      <div className={containerStyles.imageContainer}>
+        <img src={loginImage} alt="login" />
+      </div>
+      <div className={containerStyles.rightContainer}>
+        <form onSubmit={formik.handleSubmit}>
+          <div className={containerStyles.formContainer}>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="h2"
+              style={{ fontWeight: 'bolder' }}
+            >
+              Login
+            </Typography>
 
-              <TextField
-                variant="outlined"
-                id="email"
-                name="email"
-                helperText={
-                  formik.errors.email && formik.touched.email
-                    ? formik.errors.email
-                    : null
-                }
-                error={formik.errors.email && formik.touched.email}
-                placeholder="Email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton>
-                        <AccountBoxIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+            <TextField
+              variant="outlined"
+              id="email"
+              name="email"
+              helperText={
+                formik.errors.email && formik.touched.email
+                  ? formik.errors.email
+                  : null
+              }
+              error={formik.errors.email && formik.touched.email}
+              placeholder="Email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton>
+                      <AccountBoxIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-              <TextField
-                variant="outlined"
-                id="password"
-                name="password"
-                type="password"
-                error={formik.errors.password && formik.touched.password}
-                helperText={
-                  formik.errors.password && formik.touched.password
-                    ? formik.errors.password
-                    : null
-                }
-                placeholder="Password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton>
-                        <HttpsIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Button type="submit" variant="outlined" color="primary">
-                Log in
-              </Button>
-              {serverError && (
-                <div className={containerStyles.errorContainer}>
-                  <p style={{ marginTop: '2px' }}>{serverError}</p>
-                </div>
-              )}
-            </div>
-          </form>
-        </Paper>
+            <TextField
+              variant="outlined"
+              id="password"
+              name="password"
+              type="password"
+              error={formik.errors.password && formik.touched.password}
+              helperText={
+                formik.errors.password && formik.touched.password
+                  ? formik.errors.password
+                  : null
+              }
+              placeholder="Password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton>
+                      <HttpsIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button type="submit" color="primary">
+              Log in
+            </Button>
+            {serverError && (
+              <div className={containerStyles.errorContainer}>
+                <p style={{ marginTop: '2px' }}>{serverError}</p>
+              </div>
+            )}
+          </div>
+        </form>
       </div>
     </div>
   );

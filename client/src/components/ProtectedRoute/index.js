@@ -4,7 +4,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-function ProtectedRoute({ children, role }) {
+const ProtectedRoute = ({ children, role }) => {
   const state = useSelector((loginState) => loginState.login);
 
   const getUrl = () => {
@@ -23,6 +23,5 @@ function ProtectedRoute({ children, role }) {
   ) : (
     <Navigate to={`${redirectTo}`} />
   );
-}
+};
 export default ProtectedRoute;
-ard;

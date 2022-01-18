@@ -1,11 +1,18 @@
 import jwt from 'jwt-decode';
 
-const loginSuccess = (payload) => {
-	localStorage.setItem('token', payload);
-
-	return {
-		type: 'LOGIN_SUCCESS',
-		data: jwt(payload),
-	};
+const logout = () => {
+  localStorage.clear();
+  return {
+    type: 'LOGOUT',
+    data: '',
+  };
 };
-export { loginSuccess };
+const loginSuccess = (payload) => {
+  localStorage.setItem('token', payload);
+
+  return {
+    type: 'LOGIN_SUCCESS',
+    data: jwt(payload),
+  };
+};
+export { loginSuccess, logout };
