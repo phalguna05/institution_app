@@ -1,5 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const SuperAdmin = require('../../models/superAdmin');
+const Admin = require('../../models/admin');
 const { UnauthorizedError, CustomAPIError } = require('../../errors');
 
 const Login = async (req, res) => {
@@ -31,4 +32,15 @@ const Signup = async (req, res) => {
   }
 };
 
-module.exports = { Login, Signup };
+const GetAllAdmins = async (req, res) => {
+  const admins = await Admin.find({}).select('-password');
+  res.status(StatusCodes.OK).send(admins);
+};
+
+const GetAdminById = async (req, res) => {
+  const { id } = req.params;
+  const admin = await Admin.findById(id).select('-password');
+  res.status(StatusCodes.OK).send(admin);
+};
+
+module.exports = { Login, Signup, GetAllAdmins, GetAdminById };

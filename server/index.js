@@ -5,8 +5,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const swaggerUi = require('swagger-ui-express');
+const basicAuth = require('express-basic-auth');
 const connectDB = require('./config/db/connect');
-const { PORT, MONGO_URI } = require('./config/env');
+const { PORT, MONGO_URI, DOCS_EMAIL, DOCS_PASSWORD } = require('./config/env');
 
 const app = express();
 
@@ -20,7 +21,17 @@ app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('dev'));
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const userObject = {};
+userObject[DOCS_EMAIL] = DOCS_PASSWORD;
+app.use(
+  '/docs',
+  basicAuth({
+    users: { ...userObject },
+    challenge: true,
+  }),
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
 // Admin Routes
 app.use('/api/v1/admin', adminRoutes);
 // Super Admin Routes

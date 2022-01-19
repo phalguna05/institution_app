@@ -1,5 +1,11 @@
 const router = require('express').Router();
-const { Login, Signup } = require('../controllers/superAdmin');
+const authMiddleware = require('../../middleware/AuthMiddleware');
+const {
+  Login,
+  Signup,
+  GetAllAdmins,
+  GetAdminById,
+} = require('../controllers/superAdmin');
 
 /**
  * @swagger
@@ -101,4 +107,79 @@ router.post('/login', Login);
  *
  */
 router.post('/signup', Signup);
+
+/**
+ * @swagger
+ * /superAdmin/getAllAdmins:
+ *   get:
+ *     summary: Get all admins
+ *     description: Only superAdmin can access this route
+ *     tags:
+ *          - Super Admin
+ *
+ *     produces:
+ *        - application/json
+ *     responses:
+ *         200:
+ *            description: Successfully created
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Admin'
+ *         "401":
+ *            description: UnAutorized Request
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       description: Error message
+ *                       example: "You donot have access to this resource"
+ *
+ */
+
+router.get('/getAllAdmins', authMiddleware('SUPER ADMIN'), GetAllAdmins);
+/**
+ * @swagger
+ * /superAdmin/getAdmin/{id}:
+ *   get:
+ *     summary: Get admin by id
+ *     description: Only superAdmin can access this route
+ *     tags:
+ *          - Super Admin
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: Admin id
+ *         schema:
+ *           type: string
+ *     produces:
+ *        - application/json
+ *     responses:
+ *         200:
+ *            description: Successfully created
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   $ref: '#/components/schemas/Admin'
+ *         "401":
+ *            description: UnAutorized Request
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       description: Error message
+ *                       example: "You donot have access to this resource"
+ *
+ */
+router.get('/getAdmin/:id', authMiddleware('SUPER ADMIN'), GetAdminById);
 module.exports = router;
