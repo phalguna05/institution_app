@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
+import AdminList from './AdminList';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -12,12 +13,13 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: '100%',
+    height: '83vh',
     width: '45%',
     marginLeft: '50px',
     padding: '20px',
     backgroundColor: 'white',
     textAlign: 'center',
+
     boxShadow:
       ' 0 5px 10px rgba(154, 160, 185, 0.05),0 15px 40px rgba(166, 173, 201, 0.2)',
     borderRadius: '8px',
@@ -69,7 +71,7 @@ const AdminForm = () => {
     <form onSubmit={formik.handleSubmit}>
       <div className={containerStyles.mainContainer}>
         <div className={containerStyles.displayContainer}>
-          <h1>hello</h1>
+          <AdminList />
         </div>
         <div className={containerStyles.displayContainer}>
           <Typography variant="h6" style={{ fontWeight: 'bolder' }}>
@@ -137,7 +139,7 @@ const AdminForm = () => {
                 : null
             }
             error={formik.errors.schoolName && formik.touched.schoolName}
-            placeholder="schoolName"
+            placeholder="School Name"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.schoolName}
@@ -154,7 +156,7 @@ const AdminForm = () => {
                 : null
             }
             error={formik.errors.address && formik.touched.address}
-            placeholder="address"
+            placeholder="Address"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.address}

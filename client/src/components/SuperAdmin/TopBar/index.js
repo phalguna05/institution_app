@@ -22,7 +22,7 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../Login/Reducers/actions';
-import AdminForm from '../AdminForm';
+import AdminForm from '../ManageAdmin/index';
 import { setDashboardDisplay } from '../Reducers/actions';
 import { useStyles } from './topBar.styles';
 

@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import AdminForm from './AdminForm';
+import AdminForm from './ManageAdmin/index';
 import Topbar from './TopBar';
 
 const useStyles = makeStyles({
@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
   content: {
     marginTop: '100px',
-    marginLeft: '100px',
+    marginLeft: '70px',
   },
 });
 const SuperAdminDashboard = () => {
