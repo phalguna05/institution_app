@@ -6,4 +6,6 @@ module.exports = {
   MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost/test',
   JWT_SECRET: process.env.JWT_SECRET || 'secret',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
+  DOCS_EMAIL: process.env.DOCS_EMAIL,
+  DOCS_PASSWORD: process.env.DOCS_PASSWORD,
 };
