@@ -16,6 +16,7 @@ const errorMiddleware = require('./middleware/ErrorMiddleware');
 const swaggerSpec = require('./swagger');
 const adminRoutes = require('./api/routes/admin');
 const superAdminRoutes = require('./api/routes/superAdmin');
+const teacherRoutes=require('./api/routes/teacher');
 
 app.use(cors());
 app.use(express.json());
@@ -36,6 +37,8 @@ app.use(
 app.use('/api/v1/admin', adminRoutes);
 // Super Admin Routes
 app.use('/api/v1/superAdmin', superAdminRoutes);
+// Teacher Routes
+app.use('/api/v1/teacher', teacherRoutes);
 
 app.use(notFoundMiddlware);
 app.use(errorMiddleware);
