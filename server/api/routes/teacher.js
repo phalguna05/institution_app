@@ -1,20 +1,15 @@
 const router = require("express").Router();
 const authMiddleware = require("../../middleware/AuthMiddleware");
-const {
-  Login,
-  Signup,
-  GetAllAdmins,
-  GetAdminById,
-} = require("../controllers/superAdmin");
+const { Login, Signup, GetTeachers } = require("../controllers/teacher");
 
 /**
  * @swagger
- * /superAdmin/login:
+ * /teacher/login:
  *   post:
- *     summary: Login for super admin
- *     description: Login for admin with email and password to get access token for admin
+ *     summary: Login for teacher
+ *     description: Login for teacher with email and password to get access token for admin
  *     tags:
- *          - Super Admin
+ *          - Teacher
  *     security: []
  *     requestBody:
  *         required: true
@@ -25,11 +20,11 @@ const {
  *                     properties:
  *                        email:
  *                           type: string
- *                           description: Email of admin
+ *                           description: Email of teacher
  *                           example: "john@gmail.com"
  *                        password:
  *                          type: string
- *                          description: Password of admin
+ *                          description: Password of teacher
  *                          example: "12345678"
  *     responses:
  *         200:
@@ -41,7 +36,7 @@ const {
  *                   properties:
  *                      access_token:
  *                        type: string
- *                        description: Access token for admin
+ *                        description: Access token for teacher
  *                        example: "access_token"
  *         "401":
  *            description: UnAuthorized Request
@@ -56,17 +51,63 @@ const {
  *                       example: "Invalid email or password"
  *
  *
+ *
  */
 
 router.post("/login", Login);
 /**
  * @swagger
- * /superAdmin/signup:
+ * /teacher/signup:
  *   post:
- *     summary: Signup for superAdmin(To be removed)
- *     description: Only superAdmin can access this route
+ *     summary: Signup for Teacher
+ *     description: Only Admin can access this route
  *     tags:
- *          - Super Admin
+ *          - Teacher
+ *     requestBody:
+ *         required: true
+ *         content:
+ *              application/json:
+ *                  schema:
+ *                     type: object
+ *                     $ref: '#/components/schemas/Teacher'
+ *
+ *     security:
+ *        - bearerAuth: []
+ *     produces:
+ *        - application/json
+ *     responses:
+ *         200:
+ *            description: Successfully created
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                      access_token:
+ *                        type: string
+ *                        description: Access token for admin
+ *                        example: "access_token"
+ *         "401":
+ *            description: Unauthorized Request
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       description: Error message
+ *                       example: "User already exists"
+ */
+router.post("/signup", authMiddleware("ADMIN"), Signup);
+/**
+ * @swagger
+ * /teacher/getTeachers:
+ *   post:
+ *     summary: Get all Teachers of a school
+ *     description: Only Admin can access this route and Admin cannot get teachers of other school
+ *     tags:
+ *          - Teacher
  *     requestBody:
  *         required: true
  *         content:
@@ -74,60 +115,20 @@ router.post("/login", Login);
  *                  schema:
  *                     type: object
  *                     properties:
- *                        email:
- *                           type: string
- *                           description: Email of admin
- *                           example: "john@gmail.com"
- *                        password:
- *                          type: string
- *                          description: Password of admin
- *                          example: "12345678"
- *
+ *                       schoolName:
+ *                         type: string
+ *                         example: "ABC School"
  *     produces:
  *        - application/json
  *     responses:
  *         200:
- *            description: Successfully created
- *            content:
- *               application/json:
- *                 schema:
- *                   type: object
- *                   $ref: '#/components/schemas/SuperAdmin'
- *         "401":
- *            description: UnAutorized Request
- *            content:
- *               application/json:
- *                 schema:
- *                   type: object
- *                   properties:
- *                     message:
- *                       type: string
- *                       description: Error message
- *                       example: "User Already Exists"
- *
- */
-router.post("/signup", Signup);
-
-/**
- * @swagger
- * /superAdmin/getAllAdmins:
- *   get:
- *     summary: Get all admins
- *     description: Only superAdmin can access this route
- *     tags:
- *          - Super Admin
- *
- *     produces:
- *        - application/json
- *     responses:
- *         200:
- *            description: Successfully created
+ *            description: Successfully Fetched
  *            content:
  *               application/json:
  *                 schema:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Admin'
+ *                     $ref: '#/components/schemas/Teacher'
  *         "401":
  *            description: UnAutorized Request
  *            content:
@@ -141,45 +142,6 @@ router.post("/signup", Signup);
  *                       example: "You donot have access to this resource"
  *
  */
+router.post("/getTeachers", authMiddleware("ADMIN"), GetTeachers);
 
-router.get("/getAllAdmins", authMiddleware("SUPER ADMIN"), GetAllAdmins);
-/**
- * @swagger
- * /superAdmin/getAdmin/{id}:
- *   get:
- *     summary: Get admin by id
- *     description: Only superAdmin can access this route
- *     tags:
- *          - Super Admin
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: Admin id
- *         schema:
- *           type: string
- *     produces:
- *        - application/json
- *     responses:
- *         200:
- *            description: Successfully created
- *            content:
- *               application/json:
- *                 schema:
- *                   type: object
- *                   $ref: '#/components/schemas/Admin'
- *         "401":
- *            description: UnAutorized Request
- *            content:
- *               application/json:
- *                 schema:
- *                   type: object
- *                   properties:
- *                     message:
- *                       type: string
- *                       description: Error message
- *                       example: "You donot have access to this resource"
- *
- */
-router.get("/getAdmin/:id", authMiddleware("SUPER ADMIN"), GetAdminById);
 module.exports = router;

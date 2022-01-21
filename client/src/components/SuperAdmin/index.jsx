@@ -1,21 +1,21 @@
 /* eslint-disable react/function-component-definition */
-import { makeStyles } from '@material-ui/core';
-import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
-import AdminForm from './ManageAdmin/index';
-import Topbar from './TopBar';
+import { makeStyles } from "@material-ui/core";
+import React, { useCallback, useState } from "react";
+import { useSelector } from "react-redux";
+import AdminForm from "./ManageAdmin/index";
+import Topbar from "./TopBar";
 
 const useStyles = makeStyles({
   contentShift: {
-    marginLeft: '230px',
-    marginTop: '100px',
+    marginLeft: "230px",
+    marginTop: "100px",
   },
   content: {
-    marginTop: '100px',
-    marginLeft: '70px',
+    marginTop: "100px",
+    marginLeft: "70px",
   },
 });
-const SuperAdminDashboard = () => {
+function SuperAdminDashboard() {
   const superAdmin = useSelector((state) => state.superAdmin);
   const classes = useStyles();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -24,13 +24,13 @@ const SuperAdminDashboard = () => {
   };
   const switchDisplay = useCallback(() => {
     switch (superAdmin.dashboardDisplay) {
-      case 'home':
-        return 'nothing to show';
-      case 'adminsDisplay':
+      case "home":
+        return "nothing to show";
+      case "adminsDisplay":
         return <AdminForm />;
 
       default:
-        return 'nothing to show';
+        return "nothing to show";
     }
   }, [superAdmin.dashboardDisplay]);
   return (
@@ -41,5 +41,5 @@ const SuperAdminDashboard = () => {
       </div>
     </div>
   );
-};
+}
 export default SuperAdminDashboard;

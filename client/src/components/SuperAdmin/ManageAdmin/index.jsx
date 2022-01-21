@@ -1,92 +1,122 @@
 /* eslint-disable react/function-component-definition */
-import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
-import { useFormik } from 'formik';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
-import * as Yup from 'yup';
-import { apiPostCall } from '../../../services';
-import { addSingleAdmin } from '../Reducers/actions';
-import AdminList from './AdminList';
+import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
+import { useFormik } from "formik";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+import * as Yup from "yup";
+import { apiPostCall } from "../../../services";
+import { addSingleAdmin } from "../Reducers/actions";
+import AdminList from "./AdminList";
 
 const useStyles = makeStyles({
   mainContainer: {
-    display: 'flex',
+    display: "flex",
+    "@media (max-width: 780px)": {
+      flexDirection: "column",
+    },
   },
-  displayContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '83vh',
-    width: '45%',
-    marginLeft: '50px',
-    padding: '20px',
-    backgroundColor: 'white',
-    textAlign: 'center',
+
+  leftContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "83vh",
+    width: "45%",
+    marginLeft: "50px",
+    padding: "20px",
+    backgroundColor: "white",
+    textAlign: "center",
 
     boxShadow:
-      ' 0 5px 10px rgba(154, 160, 185, 0.05),0 15px 40px rgba(166, 173, 201, 0.2)',
-    borderRadius: '8px',
+      " 0 5px 10px rgba(154, 160, 185, 0.05),0 15px 40px rgba(166, 173, 201, 0.2)",
+    borderRadius: "8px",
+    "@media (max-width: 780px)": {
+      width: "90vw",
+      maxHeight: "200px",
+      marginLeft: "0px",
+    },
+  },
+  rightContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "83vh",
+    width: "45%",
+    marginLeft: "50px",
+    padding: "20px",
+    backgroundColor: "white",
+    textAlign: "center",
+
+    boxShadow:
+      " 0 5px 10px rgba(154, 160, 185, 0.05),0 15px 40px rgba(166, 173, 201, 0.2)",
+    borderRadius: "8px",
+    "@media (max-width: 780px)": {
+      width: "90vw",
+      flex: "1",
+      marginTop: "50px",
+      marginLeft: "0px",
+    },
   },
   textField: {
-    marginBottom: '10px',
+    marginBottom: "10px",
   },
 });
-const AdminForm = () => {
+function AdminForm() {
   const containerStyles = useStyles();
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      email: '',
-      name: '',
-      schoolName: '',
-      address: '',
-      dateOfJoining: '',
-      password: '',
-      phoneNumber: '',
+      email: "",
+      name: "",
+      schoolName: "",
+      address: "",
+      dateOfJoining: "",
+      password: "",
+      phoneNumber: "",
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(20, 'Please enter less than 20 characters')
-        .required('Required'),
+        .max(20, "Please enter less than 20 characters")
+        .required("Required"),
       email: Yup.string()
-        .email('Enter valid email address')
-        .required('Required'),
+        .email("Enter valid email address")
+        .required("Required"),
       schoolName: Yup.string()
-        .max(40, 'Please enter less than 40 characters')
-        .required('Required'),
+        .max(40, "Please enter less than 40 characters")
+        .required("Required"),
       address: Yup.string(),
-      dateOfJoining: Yup.date().required('Required'),
+      dateOfJoining: Yup.date().required("Required"),
       password: Yup.string()
-        .min(8, 'Password must be minimum 8 characters')
-        .required('Required'),
+        .min(8, "Password must be minimum 8 characters")
+        .required("Required"),
       phoneNumber: Yup.string()
-        .length(10, 'Enter valid phone number')
-        .required('Required'),
+        .length(10, "Enter valid phone number")
+        .required("Required"),
     }),
     onSubmit: async (values, actions) => {
-      const res = await apiPostCall('/api/v1/admin/signUp', values);
+      const res = await apiPostCall("/api/v1/admin/signUp", values);
 
       if (res.status === 201) {
         dispatch(addSingleAdmin(values));
         actions.resetForm();
       } else if (res.status === 401) {
-        alert(res.error);
+        console.log(res.error);
       }
     },
   });
   const generateUuid = () => {
-    const valArr = uuidv4().split('-');
-    formik.setFieldValue('password', valArr[0]);
+    const valArr = uuidv4().split("-");
+    formik.setFieldValue("password", valArr[0]);
   };
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className={containerStyles.mainContainer}>
-        <div className={containerStyles.displayContainer}>
+        <div className={containerStyles.leftContainer}>
           <AdminList />
         </div>
-        <div className={containerStyles.displayContainer}>
-          <Typography variant="h6" style={{ fontWeight: 'bolder' }}>
+        <div className={containerStyles.rightContainer}>
+          <Typography variant="h6" style={{ fontWeight: "bolder" }}>
             Add Admin
           </Typography>
           <TextField
@@ -191,7 +221,7 @@ const AdminForm = () => {
             onBlur={formik.handleBlur}
             value={formik.values.dateOfJoining}
           />
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: "flex" }}>
             <TextField
               variant="outlined"
               id="password"
@@ -208,12 +238,12 @@ const AdminForm = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
-              style={{ width: '50%' }}
+              style={{ width: "50%" }}
             />
             <Button
               variant="outlined"
               color="primary"
-              style={{ marginLeft: '35px', height: '50px', marginTop: '3px' }}
+              style={{ marginLeft: "35px", height: "50px", marginTop: "3px" }}
               onClick={() => generateUuid()}
             >
               Generate Password
@@ -226,5 +256,5 @@ const AdminForm = () => {
       </div>
     </form>
   );
-};
+}
 export default AdminForm;
