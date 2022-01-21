@@ -7,11 +7,12 @@ import {
   ListItemText,
   TextField,
 } from '@material-ui/core';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import React, { useState } from 'react';
+import { adminListStyles, DownIcon, RightIcon } from './AdminList.styles';
 
-const AdminList = () => {
+function AdminList() {
   const [searchValue, setSearchValue] = useState('');
+  const useStyles = adminListStyles();
   const list = [
     { schoolName: 'test school', admin: 'test Admin' },
     { schoolName: 'test school', admin: 'test Admin' },
@@ -31,7 +32,7 @@ const AdminList = () => {
     { schoolName: 'test school', admin: 'test Admin' },
   ];
   return (
-    <div>
+    <div className={useStyles.adminListContainer}>
       <TextField
         variant="outlined"
         placeholder="Search for school name...."
@@ -41,14 +42,15 @@ const AdminList = () => {
       />
       <Divider />
       <div style={{ overflow: 'auto', height: '70vh' }}>
-        <List style={{ overflow: 'auto' }}>
+        <List style={{ overflow: 'auto' }} className={useStyles.adminList}>
           {list.map((item) => (
             <div>
               <ListItem>
                 <ListItemText primary={item.schoolName} />
                 <ListItemSecondaryAction>
                   <IconButton edge="end">
-                    <ChevronRightIcon />
+                    <RightIcon />
+                    <DownIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
@@ -59,5 +61,5 @@ const AdminList = () => {
       </div>
     </div>
   );
-};
+}
 export default AdminList;

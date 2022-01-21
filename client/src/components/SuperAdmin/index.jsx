@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     marginLeft: '70px',
   },
 });
-const SuperAdminDashboard = () => {
+function SuperAdminDashboard() {
   const superAdmin = useSelector((state) => state.superAdmin);
   const classes = useStyles();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -40,5 +40,5 @@ const SuperAdminDashboard = () => {
       </div>
     </div>
   );
-};
+}
 export default SuperAdminDashboard;

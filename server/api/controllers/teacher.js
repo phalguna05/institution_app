@@ -11,8 +11,7 @@ const Login = async (req, res) => {
   }
   if (await teacher.validatePassword(password)) {
     const token = teacher.generateAuthToken();
-    res.header('Authorization', `Bearer ${token}`);
-    return res.status(StatusCodes.OK).send({ name: teacher.name });
+    res.status(StatusCodes.OK).send({ access_token: token });
   }
   throw new UnauthorizedError('Invalid Credentials');
 };
@@ -25,8 +24,7 @@ const Signup = async (req, res) => {
   try {
     const newTeacher = await Teacher.create({ ...req.body });
     const token = newTeacher.generateAuthToken();
-    res.header('Authorization', `Bearer ${token}`);
-    return res.status(StatusCodes.OK).send({ name: teacher.name });
+    res.status(StatusCodes.OK).send({ access_token: token });
   } catch (err) {
     throw new CustomAPIError(err.message, StatusCodes.INTERNAL_SERVER_ERROR);
   }

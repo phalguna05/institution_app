@@ -17,7 +17,7 @@ import { AxiosInstance } from '../../../services/index';
 import { loginSuccess } from '../Reducers/actions';
 import { divStyles } from './login.Styles';
 
-const LoginComponent = ({ nextPath, component }) => {
+function LoginComponent({ nextPath, component }) {
   const containerStyles = divStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,7 +53,11 @@ const LoginComponent = ({ nextPath, component }) => {
   return (
     <div className={containerStyles.loginContainer}>
       <div className={containerStyles.imageContainer}>
-        <img src={loginImage} alt="login" />
+        <img
+          src={loginImage}
+          alt="login"
+          className={containerStyles.loginImage}
+        />
       </div>
       <div className={containerStyles.rightContainer}>
         <form onSubmit={formik.handleSubmit}>
@@ -130,5 +134,5 @@ const LoginComponent = ({ nextPath, component }) => {
       </div>
     </div>
   );
-};
+}
 export default LoginComponent;

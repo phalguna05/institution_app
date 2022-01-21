@@ -23,6 +23,9 @@ const options = {
       {
         url: `http://localhost:${PORT}/api/v1`,
       },
+      {
+        url: `https://institution-app.herokuapp.com/api/v1`,
+      },
     ],
 
     components: {

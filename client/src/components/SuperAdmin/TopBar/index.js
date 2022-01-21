@@ -26,7 +26,7 @@ import AdminForm from '../ManageAdmin/index';
 import { setDashboardDisplay } from '../Reducers/actions';
 import { useStyles } from './topBar.styles';
 
-const TopBar = ({ checkIfOpen }) => {
+function TopBar({ checkIfOpen }) {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -129,5 +129,5 @@ const TopBar = ({ checkIfOpen }) => {
       </Dialog>
     </div>
   );
-};
+}
 export default TopBar;
