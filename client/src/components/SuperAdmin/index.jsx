@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { makeStyles } from '@material-ui/core';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';

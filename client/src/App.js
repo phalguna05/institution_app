@@ -9,47 +9,49 @@ import SuperAdminDashboard from './components/SuperAdmin';
 import store from './store';
 // import ProtectedRoute from "./components/ProtectedRoute";
 
-const App = () => (
-  <div className="App">
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/superAdminLogin"
-            element={
-              <LoginComponent
-                nextPath="/superAdminDashboard"
-                component="superAdmin"
-              />
-            }
-          />
-          <Route
-            path="/adminLogin"
-            element={
-              <LoginComponent nextPath="/adminDashboard" component="admin" />
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <LoginComponent
-                nextPath="/superAdminDashboard"
-                component="superAdmin"
-              />
-            }
-          />
-          <Route
-            path="/superAdminDashboard"
-            element={
-              <ProtectedRoute role="SUPER ADMIN">
-                <SuperAdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
-  </div>
-);
+function App() {
+	return (
+		<div className='App'>
+			<Provider store={store}>
+				<BrowserRouter>
+					<Routes>
+						<Route
+							path='/superAdminLogin'
+							element={
+								<LoginComponent
+									nextPath='/superAdminDashboard'
+									component='superAdmin'
+								/>
+							}
+						/>
+						<Route
+							path='/adminLogin'
+							element={
+								<LoginComponent nextPath='/adminDashboard' component='admin' />
+							}
+						/>
+						<Route
+							path='/'
+							element={
+								<LoginComponent
+									nextPath='/superAdminDashboard'
+									component='superAdmin'
+								/>
+							}
+						/>
+						<Route
+							path='/superAdminDashboard'
+							element={
+								<ProtectedRoute role='SUPER ADMIN'>
+									<SuperAdminDashboard />
+								</ProtectedRoute>
+							}
+						/>
+					</Routes>
+				</BrowserRouter>
+			</Provider>
+		</div>
+	);
+}
 
 export default App;

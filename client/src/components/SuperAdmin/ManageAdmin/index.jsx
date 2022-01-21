@@ -1,8 +1,12 @@
+/* eslint-disable react/function-component-definition */
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
+import { apiPostCall } from '../../../services';
+import { addSingleAdmin } from '../Reducers/actions';
 import AdminList from './AdminList';
 
 const useStyles = makeStyles({
@@ -30,6 +34,7 @@ const useStyles = makeStyles({
 });
 const AdminForm = () => {
   const containerStyles = useStyles();
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -59,8 +64,15 @@ const AdminForm = () => {
         .length(10, 'Enter valid phone number')
         .required('Required'),
     }),
-    onSubmit: async (values) => {
-      console.log(values);
+    onSubmit: async (values, actions) => {
+      const res = await apiPostCall('/api/v1/admin/signUp', values);
+
+      if (res.status === 201) {
+        dispatch(addSingleAdmin(values));
+        actions.resetForm();
+      } else if (res.status === 401) {
+        alert(res.error);
+      }
     },
   });
   const generateUuid = () => {

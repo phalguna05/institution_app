@@ -2,12 +2,12 @@ import { makeStyles } from '@material-ui/core';
 
 const divStyles = makeStyles({
   imageContainer: {
-    width: '50vw',
+    width: '50%',
     marginTop: '5%',
     marginRight: '14%',
   },
   rightContainer: {
-    width: '28vw',
+    width: '28%',
     marginTop: '7%',
   },
 
