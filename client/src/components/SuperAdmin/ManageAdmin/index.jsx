@@ -8,8 +8,12 @@ import AdminList from './AdminList';
 const useStyles = makeStyles({
   mainContainer: {
     display: 'flex',
+    '@media (max-width: 780px)': {
+      flexDirection: 'column',
+    },
   },
-  displayContainer: {
+
+  leftContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -23,12 +27,38 @@ const useStyles = makeStyles({
     boxShadow:
       ' 0 5px 10px rgba(154, 160, 185, 0.05),0 15px 40px rgba(166, 173, 201, 0.2)',
     borderRadius: '8px',
+    '@media (max-width: 780px)': {
+      width: '90vw',
+      maxHeight: '200px',
+      marginLeft: '0px',
+    },
+  },
+  rightContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '83vh',
+    width: '45%',
+    marginLeft: '50px',
+    padding: '20px',
+    backgroundColor: 'white',
+    textAlign: 'center',
+
+    boxShadow:
+      ' 0 5px 10px rgba(154, 160, 185, 0.05),0 15px 40px rgba(166, 173, 201, 0.2)',
+    borderRadius: '8px',
+    '@media (max-width: 780px)': {
+      width: '90vw',
+      flex: '1',
+      marginTop: '50px',
+      marginLeft: '0px',
+    },
   },
   textField: {
     marginBottom: '10px',
   },
 });
-const AdminForm = () => {
+function AdminForm() {
   const containerStyles = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -70,10 +100,10 @@ const AdminForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className={containerStyles.mainContainer}>
-        <div className={containerStyles.displayContainer}>
+        <div className={containerStyles.leftContainer}>
           <AdminList />
         </div>
-        <div className={containerStyles.displayContainer}>
+        <div className={containerStyles.rightContainer}>
           <Typography variant="h6" style={{ fontWeight: 'bolder' }}>
             Add Admin
           </Typography>
@@ -214,5 +244,5 @@ const AdminForm = () => {
       </div>
     </form>
   );
-};
+}
 export default AdminForm;

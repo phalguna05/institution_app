@@ -10,8 +10,7 @@ const Login = async (req, res) => {
     throw new UnauthorizedError('User Not Found');
   } else if (await superAdmin.validatePassword(password)) {
     const token = superAdmin.generateAuthToken();
-    res.header('Authorization', `Bearer ${token}`);
-    res.status(StatusCodes.OK).send({ email: superAdmin.email });
+    res.status(StatusCodes.OK).send({ access_token: token });
   } else {
     throw new UnauthorizedError('Invalid Credentials');
   }
@@ -27,8 +26,7 @@ const Signup = async (req, res) => {
   try {
     const newSuperAdmin = await SuperAdmin.create({ ...req.body });
     const token = newSuperAdmin.generateAuthToken();
-    res.header('Authorization', `Bearer ${token}`);
-    res.status(StatusCodes.CREATED).send({ email: superAdmin.email });
+    res.status(StatusCodes.OK).send({ access_token: token });
   } catch (err) {
     throw new CustomAPIError(err.message, StatusCodes.INTERNAL_SERVER_ERROR);
   }
