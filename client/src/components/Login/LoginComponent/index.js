@@ -54,7 +54,7 @@ function LoginComponent({ nextPath, component }) {
 	return (
 		<div className={containerStyles.loginContainer}>
 			<div className={containerStyles.imageContainer}>
-				<img src={loginImage} alt='login' />
+				<img src={loginImage} alt='login' style={{ width: '100%' }} />
 			</div>
 			<div className={containerStyles.rightContainer}>
 				<form onSubmit={formik.handleSubmit}>

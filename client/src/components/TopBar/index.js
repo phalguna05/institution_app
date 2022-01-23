@@ -14,17 +14,15 @@ import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../Login/Reducers/actions';
-import { setDashboardDisplay } from '../Reducers/actions';
+import { setDashboardDisplay } from '../../pages/SuperAdmin/Reducers/actions';
+import { logout } from '../Login/Reducers/actions';
 import { useStyles } from './topBar.styles';
 
-const TopBar = ({ checkIfOpen }) => {
+const TopBar = ({ checkIfOpen, sidebarList, iconList }) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
@@ -43,17 +41,16 @@ const TopBar = ({ checkIfOpen }) => {
 	const handleSidebarSwitch = (index) => {
 		switch (index) {
 			case 0:
-				dispatch(setDashboardDisplay('home'));
+				dispatch(setDashboardDisplay(sidebarList[0]));
 				break;
 			case 1:
-				dispatch(setDashboardDisplay('adminsDisplay'));
+				dispatch(setDashboardDisplay(sidebarList[1]));
 				break;
 			default:
-				dispatch(setDashboardDisplay('home'));
+				dispatch(setDashboardDisplay(sidebarList[0]));
 		}
 		setActiveIndex(index);
 	};
-	const iconsList = [<HomeIcon />, <GroupAddIcon />];
 	return (
 		<div className={classes.root}>
 			<CssBaseline />
@@ -111,7 +108,7 @@ const TopBar = ({ checkIfOpen }) => {
 				</div>
 				<Divider />
 				<List>
-					{['Home', 'Manage Admins'].map((text, index) => (
+					{sidebarList.map((text, index) => (
 						<ListItem
 							button
 							key={text}
@@ -122,7 +119,7 @@ const TopBar = ({ checkIfOpen }) => {
 									: classes.listOptions
 							}
 						>
-							<ListItemIcon>{iconsList[index]}</ListItemIcon>
+							<ListItemIcon>{iconList[index]}</ListItemIcon>
 							<ListItemText primary={text} />
 						</ListItem>
 					))}
