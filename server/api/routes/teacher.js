@@ -1,6 +1,6 @@
-const router = require("express").Router();
-const authMiddleware = require("../../middleware/AuthMiddleware");
-const { Login, Signup, GetTeachers } = require("../controllers/teacher");
+const router = require('express').Router();
+const authMiddleware = require('../../middleware/AuthMiddleware');
+const { Login, Signup, GetTeachers } = require('../controllers/teacher');
 
 /**
  * @swagger
@@ -54,7 +54,7 @@ const { Login, Signup, GetTeachers } = require("../controllers/teacher");
  *
  */
 
-router.post("/login", Login);
+router.post('/login', Login);
 /**
  * @swagger
  * /teacher/signup:
@@ -99,7 +99,7 @@ router.post("/login", Login);
  *                       description: Error message
  *                       example: "User already exists"
  */
-router.post("/signup", authMiddleware("ADMIN"), Signup);
+router.post('/signup', authMiddleware('ADMIN'), Signup);
 /**
  * @swagger
  * /teacher/getTeachers:
@@ -142,6 +142,6 @@ router.post("/signup", authMiddleware("ADMIN"), Signup);
  *                       example: "You donot have access to this resource"
  *
  */
-router.post("/getTeachers", authMiddleware("ADMIN"), GetTeachers);
+router.post('/getTeachers', authMiddleware('ADMIN'), GetTeachers);
 
 module.exports = router;
