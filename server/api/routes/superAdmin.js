@@ -1,11 +1,13 @@
-const router = require("express").Router();
-const authMiddleware = require("../../middleware/AuthMiddleware");
+const router = require('express').Router();
+const authMiddleware = require('../../middleware/AuthMiddleware');
 const {
   Login,
   Signup,
   GetAllAdmins,
   GetAdminById,
-} = require("../controllers/superAdmin");
+  UpdateAdmin,
+  DeleteAdmin,
+} = require('../controllers/superAdmin');
 
 /**
  * @swagger
@@ -58,7 +60,7 @@ const {
  *
  */
 
-router.post("/login", Login);
+router.post('/login', Login);
 /**
  * @swagger
  * /superAdmin/signup:
@@ -106,7 +108,7 @@ router.post("/login", Login);
  *                       example: "User Already Exists"
  *
  */
-router.post("/signup", Signup);
+router.post('/signup', Signup);
 
 /**
  * @swagger
@@ -142,7 +144,7 @@ router.post("/signup", Signup);
  *
  */
 
-router.get("/getAllAdmins", authMiddleware("SUPER ADMIN"), GetAllAdmins);
+router.get('/getAllAdmins', authMiddleware('SUPER ADMIN'), GetAllAdmins);
 /**
  * @swagger
  * /superAdmin/getAdmin/{id}:
@@ -181,5 +183,91 @@ router.get("/getAllAdmins", authMiddleware("SUPER ADMIN"), GetAllAdmins);
  *                       example: "You donot have access to this resource"
  *
  */
-router.get("/getAdmin/:id", authMiddleware("SUPER ADMIN"), GetAdminById);
+router.get('/getAdmin/:id', authMiddleware('SUPER ADMIN'), GetAdminById);
+/**
+ * @swagger
+ * /superAdmin/updateAdmin/{id}:
+ *   patch:
+ *     summary: Update admin by id
+ *     description: Only superAdmin can access this route
+ *     tags:
+ *          - Super Admin
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: Admin id
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *         required: true
+ *         content:
+ *              application/json:
+ *                  schema:
+ *                     type: object
+ *                     $ref: '#/components/schemas/Admin'
+ *     produces:
+ *        - application/json
+
+ *     responses:
+ *         200:
+ *            description: Successfully updated
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   $ref: '#/components/schemas/Admin'
+ *         "401":
+ *            description: UnAutorized Request
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       description: Error message
+ *                       example: "You donot have access to this resource"
+ *
+ */
+router.patch('/updateAdmin/:id', authMiddleware('SUPER ADMIN'), UpdateAdmin);
+/**
+ * @swagger
+ * /superAdmin/deleteAdmin/{id}:
+ *   delete:
+ *     summary: Delete admin by id
+ *     description: Only superAdmin can access this route
+ *     tags:
+ *          - Super Admin
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: Admin id
+ *         schema:
+ *           type: string
+ *     produces:
+ *        - application/json
+ *     responses:
+ *         200:
+ *            description: Successfully updated
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   $ref: '#/components/schemas/Admin'
+ *         "401":
+ *            description: UnAutorized Request
+ *            content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       description: Error message
+ *                       example: "You donot have access to this resource"
+ *
+ */
+router.delete('/deleteAdmin/:id', authMiddleware('SUPER ADMIN'), DeleteAdmin);
 module.exports = router;
