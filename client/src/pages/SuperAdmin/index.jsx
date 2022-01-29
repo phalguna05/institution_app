@@ -9,46 +9,46 @@ import Home from './Home';
 import AdminForm from './ManageAdmin/index';
 
 const useStyles = makeStyles({
-	contentShift: {
-		marginLeft: '230px',
-		marginTop: '100px',
-	},
-	content: {
-		marginTop: '100px',
-		marginLeft: '70px',
-	},
+  contentShift: {
+    marginLeft: '230px',
+    marginTop: '100px',
+  },
+  content: {
+    marginTop: '100px',
+    marginLeft: '70px',
+  },
 });
 function SuperAdminDashboard() {
-	const superAdmin = useSelector((state) => state.superAdmin);
-	const classes = useStyles();
-	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-	const checkIfOpen = (bool) => {
-		setIsSidebarOpen(bool);
-	};
-	const iconList = [<HomeIcon />, <GroupAddIcon />];
-	const sidebarList = ['Home', 'Manage Admins'];
-	const switchDisplay = useCallback(() => {
-		switch (superAdmin.dashboardDisplay) {
-			case 'Home':
-				return <Home />;
-			case 'Manage Admins':
-				return <AdminForm />;
+  const superAdmin = useSelector((state) => state.topBar);
+  const classes = useStyles();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const checkIfOpen = (bool) => {
+    setIsSidebarOpen(bool);
+  };
+  const iconList = [<HomeIcon />, <GroupAddIcon />];
+  const sidebarList = ['Home', 'Manage Admins'];
+  const switchDisplay = useCallback(() => {
+    switch (superAdmin.activeIndex) {
+      case 0:
+        return <Home />;
+      case 1:
+        return <AdminForm />;
 
-			default:
-				return <Home />;
-		}
-	}, [superAdmin.dashboardDisplay]);
-	return (
-		<div>
-			<Topbar
-				checkIfOpen={checkIfOpen}
-				sidebarList={sidebarList}
-				iconList={iconList}
-			/>
-			<div className={isSidebarOpen ? classes.contentShift : classes.content}>
-				{switchDisplay()}
-			</div>
-		</div>
-	);
+      default:
+        return <Home />;
+    }
+  }, [superAdmin.activeIndex]);
+  return (
+    <div>
+      <Topbar
+        checkIfOpen={checkIfOpen}
+        sidebarList={sidebarList}
+        iconList={iconList}
+      />
+      <div className={isSidebarOpen ? classes.contentShift : classes.content}>
+        {switchDisplay()}
+      </div>
+    </div>
+  );
 }
 export default SuperAdminDashboard;

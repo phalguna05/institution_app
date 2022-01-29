@@ -13,9 +13,27 @@
 
 ## Frontend
 
+### Screen Shots
+
+#### Login Screen
+
+![Login Page](./LoginScreen.png)
+
+#### Student Dashboard
+
+![Student DashBoard](./StudentDashboard.png)
+
+#### Super Admin DashBoard
+
+![Super Admin DashBoard](./SuperAdminDashboard.png)
+
 ### Progress
 
 - `Super Admin`
   - [x] `login screen`
+  - [x] `DashBoard`
+  - [x] `Manage Admins Form`
 - `Admin`
-  - [ ] `Admin login Screen`
+  - [x] `Admin login Screen`
+- `Student`
+  - [x] `Dashboard`
