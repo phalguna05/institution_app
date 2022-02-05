@@ -17,115 +17,105 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setDashboardDisplay } from '../../pages/SuperAdmin/Reducers/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Login/Reducers/actions';
+import { setDashboardDisplay } from './reducers/actions';
 import { useStyles } from './topBar.styles';
 
 const TopBar = ({ checkIfOpen, sidebarList, iconList }) => {
-	const classes = useStyles();
-	const theme = useTheme();
-	const dispatch = useDispatch();
-	const [open, setOpen] = useState(false);
-	const [activeIndex, setActiveIndex] = useState(0);
-	const handleDrawerOpen = () => {
-		setOpen(true);
-		checkIfOpen(true);
-	};
+  const classes = useStyles();
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const activeIndex = useSelector((state) => state.topBar.activeIndex);
 
-	const handleDrawerClose = () => {
-		setOpen(false);
-		checkIfOpen(false);
-	};
+  const handleDrawerOpen = () => {
+    setOpen(true);
+    checkIfOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+    checkIfOpen(false);
+  };
 
-	const handleSidebarSwitch = (index) => {
-		switch (index) {
-			case 0:
-				dispatch(setDashboardDisplay(sidebarList[0]));
-				break;
-			case 1:
-				dispatch(setDashboardDisplay(sidebarList[1]));
-				break;
-			default:
-				dispatch(setDashboardDisplay(sidebarList[0]));
-		}
-		setActiveIndex(index);
-	};
-	return (
-		<div className={classes.root}>
-			<CssBaseline />
-			<AppBar
-				position='fixed'
-				className={clsx(classes.appBar, {
-					[classes.appBarShift]: open,
-				})}
-			>
-				<Toolbar>
-					<IconButton
-						color='inherit'
-						aria-label='open drawer'
-						onClick={handleDrawerOpen}
-						edge='start'
-						className={clsx(classes.menuButton, {
-							[classes.hide]: open,
-						})}
-					>
-						<MenuIcon />
-					</IconButton>
-					<Typography variant='h6' noWrap style={{ flexGrow: '1' }}>
-						Dashboard
-					</Typography>
-					<IconButton
-						color='inherit'
-						aria-label='log out'
-						onClick={() => dispatch(logout())}
-					>
-						<ExitToAppIcon />
-					</IconButton>
-				</Toolbar>
-			</AppBar>
-			<Drawer
-				variant='permanent'
-				className={clsx(classes.drawer, {
-					[classes.drawerOpen]: open,
-					[classes.drawerClose]: !open,
-				})}
-				classes={{
-					paper: clsx({
-						[classes.drawerOpen]: open,
-						[classes.drawerClose]: !open,
-					}),
-				}}
-			>
-				<div className={classes.toolbar}>
-					<IconButton onClick={handleDrawerClose}>
-						{theme.direction === 'rtl' ? (
-							<ChevronRightIcon />
-						) : (
-							<ChevronLeftIcon />
-						)}
-					</IconButton>
-				</div>
-				<Divider />
-				<List>
-					{sidebarList.map((text, index) => (
-						<ListItem
-							button
-							key={text}
-							onClick={() => handleSidebarSwitch(index)}
-							className={
-								activeIndex === index
-									? classes.listOptionsSelected
-									: classes.listOptions
-							}
-						>
-							<ListItemIcon>{iconList[index]}</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItem>
-					))}
-				</List>
-			</Drawer>
-		</div>
-	);
+  const handleSidebarSwitch = (index) => {
+    dispatch(setDashboardDisplay(index));
+  };
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, {
+              [classes.hide]: open,
+            })}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap style={{ flexGrow: '1' }}>
+            Dashboard
+          </Typography>
+          <IconButton
+            color="inherit"
+            aria-label="log out"
+            onClick={() => dispatch(logout())}
+          >
+            <ExitToAppIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
+        classes={{
+          paper: clsx({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
+        }}
+      >
+        <div className={classes.toolbar}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          {sidebarList.map((text, index) => (
+            <ListItem
+              button
+              key={text}
+              onClick={() => handleSidebarSwitch(index)}
+              className={
+                activeIndex === index
+                  ? classes.listOptionsSelected
+                  : classes.listOptions
+              }
+            >
+              <ListItemIcon>{iconList[index]}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+    </div>
+  );
 };
 export default TopBar;
